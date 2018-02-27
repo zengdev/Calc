@@ -16,7 +16,7 @@
         android:layout_weight="5"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/calc_area"
+            android:id="@+id/calc_textview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -26,7 +26,7 @@
 
         </TextView>
         <TextView
-            android:id="@+id/request_area"
+            android:id="@+id/result_textview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
         android:layout_weight="2"
         android:orientation="horizontal">
 
-        <!-- C 7 4 1 % -->
+        <!-- C 7 4 1 00 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -54,6 +54,7 @@
             <!-- C -->
             <Button
                 android:id="@+id/btn_Clear"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="C"
@@ -64,6 +65,7 @@
             <!-- 7 -->
             <Button
                 android:id="@+id/btn_7"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="7"
@@ -75,6 +77,7 @@
             <!-- 4 -->
             <Button
                 android:id="@+id/btn_4"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="4"
@@ -85,6 +88,7 @@
             <!-- 1 -->
             <Button
                 android:id="@+id/btn_1"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="1"
@@ -92,12 +96,13 @@
                 android:textSize="40sp"
                 android:layout_weight="1">
             </Button>
-            <!-- % -->
+            <!-- 00 -->
             <Button
-                android:id="@+id/btn_mod"
+                android:id="@+id/btn_00"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:text="%"
+                android:text="00"
                 android:textColor="#444"
                 android:textSize="40sp"
                 android:layout_weight="1">
@@ -113,6 +118,7 @@
             <!-- ÷ -->
             <Button
                 android:id="@+id/btn_div"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="÷"
@@ -123,6 +129,7 @@
             <!-- 8 -->
             <Button
                 android:id="@+id/btn_8"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="8"
@@ -133,6 +140,7 @@
             <!-- 5 -->
             <Button
                 android:id="@+id/btn_5"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="5"
@@ -143,6 +151,7 @@
             <!-- 2 -->
             <Button
                 android:id="@+id/btn_2"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="2"
@@ -153,6 +162,7 @@
             <!-- 0 -->
             <Button
                 android:id="@+id/btn_0"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="0"
@@ -171,6 +181,7 @@
             <!-- × -->
             <Button
                 android:id="@+id/btn_mul"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="×"
@@ -181,6 +192,7 @@
             <!-- 9 -->
             <Button
                 android:id="@+id/btn_9"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="9"
@@ -191,6 +203,7 @@
             <!-- 6 -->
             <Button
                 android:id="@+id/btn_6"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="6"
@@ -201,6 +214,7 @@
             <!-- 3 -->
             <Button
                 android:id="@+id/btn_3"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="3"
@@ -211,6 +225,7 @@
             <!-- . -->
             <Button
                 android:id="@+id/btn_point"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="."
@@ -229,6 +244,7 @@
             <!-- Del -->
             <Button
                 android:id="@+id/btn_del"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="Del"
@@ -239,6 +255,7 @@
             <!-- － -->
             <Button
                 android:id="@+id/btn_sub"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="－"
@@ -249,6 +266,7 @@
             <!-- ＋ -->
             <Button
                 android:id="@+id/btn_add"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="＋"
@@ -259,6 +277,7 @@
             <!-- ＝ -->
             <Button
                 android:id="@+id/btn_equal"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="＝"
