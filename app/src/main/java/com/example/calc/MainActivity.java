@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private void initData() {
 		currentOperaType = OPERA_TYPE_NONE;
 		currentOperaNum = operaNum1;
+		isExistResult = false;
 		operaNum1.init();
 		operaNum2.init();
 		Util.clearStringBuilder(calcStr);
