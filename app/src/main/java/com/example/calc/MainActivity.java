@@ -17,11 +17,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	// 控件
 	private static TextView calcTextView;		// 计算式显示区域
 	private static TextView resultTextView;	// 结果显示区域
-	private static Button addBtn;				// ＋
-	private static Button subBtn;				// －
-	private static Button mulBtn;				// ×
-	private static Button divBtn;				// ÷
-	private static Button pointBtn;			// 小数点
+//	private static Button addBtn;				// ＋
+//	private static Button subBtn;				// －
+//	private static Button mulBtn;				// ×
+//	private static Button divBtn;				// ÷
+//	private static Button pointBtn;				// 小数点
 
 	// 运算操作类型
 	private static final int OPERA_TYPE_NONE = 0;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private static final int OPERA_TYPE_MUL = 3;
 	private static final int OPERA_TYPE_DIV = 4;
 
-	private static int currentOperaType;	// 当前运算操作类型
+	private static int currentOperaType;		// 当前运算操作类型
 
 	// flag
 	private static boolean isExistResult;
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	// str
 	private static StringBuilder calcStr;		// 计算式
-	private static StringBuilder resultStr;	// 计算结果
 	private static String operaStr;			// 运算操作
 
 	// 操作数对象
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private static OperaNum operaNum2;
 	private static OperaNum currentOperaNum;
 
-	private static double result;	//运算结果
+	private static double result = 0;		// 运算结果
 
 	class OperaNum {
 		public boolean havePoint = false;	// 是否包含小数点
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 		public void init() {
 			value = 0;
-			clearStringBuilder(valueStr);
+			Util.clearStringBuilder(valueStr);
 			havePoint = false;
 		}
 	}
@@ -83,86 +82,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 	private void init() {
 		calcStr = new StringBuilder("");
-		resultStr = new StringBuilder("");
 		operaNum1 = new OperaNum();
 		operaNum2 = new OperaNum();
 		calcTextView = findViewById(R.id.calc_textview);
 		resultTextView = findViewById(R.id.result_textview);
-		addBtn = findViewById(R.id.btn_add);
-		subBtn = findViewById(R.id.btn_sub);
-		mulBtn = findViewById(R.id.btn_mul);
-		divBtn = findViewById(R.id.btn_div);
-		pointBtn = findViewById(R.id.btn_point);
-		clear();
+//		addBtn = findViewById(R.id.btn_add);
+//		subBtn = findViewById(R.id.btn_sub);
+//		mulBtn = findViewById(R.id.btn_mul);
+//		divBtn = findViewById(R.id.btn_div);
+//		pointBtn = findViewById(R.id.btn_point);
+		clearClick();
 	}
 
-	private void clearTextView(TextView textView) {
-		textView.setText("");
-	}
-
-	private void clearTextView(TextView textView1, TextView textView2) {
-		textView1.setText("");
-		textView2.setText("");
-	}
-
-	private void clearStringBuilder(StringBuilder stringBuilder) {
-		stringBuilder.setLength(0);
-	}
-
-	private void clearStringBuilder(StringBuilder stringBuilder1, StringBuilder stringBuilder2) {
-		stringBuilder1.setLength(0);
-		stringBuilder2.setLength(0);
-	}
-
-	private void clearData() {
-		pointBtn.setEnabled(true);
-		addBtn.setEnabled(true);
-		subBtn.setEnabled(true);
-		mulBtn.setEnabled(true);
-		divBtn.setEnabled(true);
+	private void initData() {
 		currentOperaType = OPERA_TYPE_NONE;
 		currentOperaNum = operaNum1;
-		isExistResult = false;
-		isOperaSuccess = false;
-		result = 0;
 		operaNum1.init();
 		operaNum2.init();
-		clearStringBuilder(calcStr, resultStr);
+		Util.clearStringBuilder(calcStr);
 		operaStr = "";
 	}
 
-	private void clear() {
-		clearData();
-		clearTextView(calcTextView, resultTextView);
-	}
-
-	private String getStringBuilderLastOneStr(StringBuilder stringBuilder) {
-		if (stringBuilder.length() > 0) {
-			return Character.toString(stringBuilder.charAt(stringBuilder.length() - 1));
-		}
-		return null;
+	private void clearClick() {
+		initData();
+		Util.clearTextView(calcTextView, resultTextView);
 	}
 
 	private void numClick(String num) {
 		String tempNum = num;
 		if (isExistResult) {
-			clear();
+			clearClick();
 		}
-		if (null == currentOperaNum) {
-			currentOperaNum = operaNum1;
-		}
-		if (currentOperaNum.valueStr.toString().equals("0")
-				&& (num.equals("0") || num.equals("00"))) {
-			return;
-		}
-		if (0 == currentOperaNum.valueStr.length()
-				&& num.equals("00")) {
+		if (0 == currentOperaNum.valueStr.length() && num.equals("00")) {
 			tempNum = "0";
-		}
-		if (currentOperaNum.havePoint) {
-			pointBtn.setEnabled(false);
-		} else {
-			pointBtn.setEnabled(true);
+		} else	if (currentOperaNum.valueStr.toString().equals("0")) {
+			if (num.equals("0") || num.equals("00")) {
+				return;
+			} else {
+				Util.clearStringBuilder(currentOperaNum.valueStr);
+				calcStr.deleteCharAt(calcStr.length() - 1);
+			}
 		}
 		currentOperaNum.valueStr.append(tempNum);
 		calcStr.append(tempNum);
@@ -170,69 +129,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	}
 
 	private void pointClick() {
-		if (isExistResult) {
-			return;
-		}
-		if (currentOperaNum.havePoint || currentOperaNum.valueStr.length() == 0) {
+		if (isExistResult || currentOperaNum.havePoint || currentOperaNum.valueStr.length() == 0) {
 			return;
 		}
 		currentOperaNum.valueStr.append(".");
 		currentOperaNum.havePoint = true;
-		pointBtn.setEnabled(false);
 		calcStr.append(".");
 		calcTextView.setText(calcStr.toString());
 	}
 
-	private void operaClick(String operaStr) {
-		if (isExistResult) {
-			return;
+	private boolean operaClick(String operaStr) {
+		if (isExistResult || calcStr.length() == 0) {
+			return false;
+		}else if (calcStr.length() > 0) {
+			String currentOperaNumLastOneStr = Util.getStringBuilderLastOneStr(currentOperaNum.valueStr);
+			if (currentOperaNumLastOneStr.equals(".")) {
+				Util.showTipText(getApplicationContext(), "操作数最后一位不能为小数点！");
+				return false;
+			}
+			if (currentOperaNum == operaNum2) {
+				if (currentOperaNum.valueStr.length() == 0) {
+					calcStr.deleteCharAt(calcStr.length() - 1);
+					this.operaStr = operaStr;
+					calcStr.append(operaStr);
+					calcTextView.setText(calcStr.toString());
+					return true;
+				}
+				return false;
+			} else {
+				this.operaStr = operaStr;
+				calcStr.append(operaStr);
+				calcTextView.setText(calcStr.toString());
+				currentOperaNum = operaNum2;
+				return true;
+			}
 		}
-		String operaNum1LastOneStr = getStringBuilderLastOneStr(currentOperaNum.valueStr);
-		if (operaNum1LastOneStr.equals(".")) {
-			Util.showTipText(getApplicationContext(), "操作数最后一位不能为小数点！");
-			return;
-		}
-		this.operaStr = operaStr;
-		calcStr.append(operaStr);
-		calcTextView.setText(calcStr.toString());
-		currentOperaNum = operaNum2;
-		addBtn.setEnabled(false);
-		subBtn.setEnabled(false);
-		mulBtn.setEnabled(false);
-		divBtn.setEnabled(false);
+		return false;
 	}
 
 	private void delClick() {
-		if (calcStr.length() == 0) {
-			return;
-		}
-		calcStr.deleteCharAt(calcStr.length() - 1);
-		calcTextView.setText(calcStr.toString());
-		if (isExistResult) {
-			clearStringBuilder(resultStr);
-			clearTextView(resultTextView);
-			isExistResult = false;
-			isOperaSuccess = false;
-			return;
-		}
-		String calcLastOneStr = "";
+		String calcLastOneStr;
 		if (calcStr.length() > 0) {
-			calcLastOneStr = Character.toString(calcStr.charAt(calcStr.length() - 1));
+			calcLastOneStr = Util.getStringBuilderLastOneStr(calcStr);
+		} else {
+			return;
 		}
-		if (calcLastOneStr.equals(operaStr)) {
+		if (isExistResult) {
+			Util.clearTextView(resultTextView);
+			isExistResult = false;
+		} else if (calcLastOneStr.equals(operaStr)) {
 			operaStr = "";
+			currentOperaType = OPERA_TYPE_NONE;
 			currentOperaNum = operaNum1;
-			addBtn.setEnabled(true);
-			subBtn.setEnabled(true);
-			mulBtn.setEnabled(true);
-			divBtn.setEnabled(true);
 		} else {
 			currentOperaNum.valueStr.deleteCharAt(currentOperaNum.valueStr.length() - 1);
 			if (calcLastOneStr.equals(".")) {
 				currentOperaNum.havePoint = false;
-				pointBtn.setEnabled(true);
 			}
 		}
+		calcStr.deleteCharAt(calcStr.length() - 1);
+		calcTextView.setText(calcStr.toString());
 	}
 
 	private void add() {
@@ -251,13 +207,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	}
 
 	private void div() {
-		if (0 == operaNum2.getValue()) {	// 未验证----------------------
+		if (0 == operaNum2.getValue()) {    // 未验证----------------------
 			Util.showTipText(getApplicationContext(), "除数不能为0！");
 			isOperaSuccess = false;
-			return;
+		} else {
+			result = operaNum1.getValue() / operaNum2.getValue();
+			isOperaSuccess = true;
 		}
-		result = operaNum1.getValue() / operaNum2.getValue();
-		isOperaSuccess = true;
 	}
 
 	private void calc() {
@@ -265,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			return;
 		}
 
-		String calcLastOneStr = getStringBuilderLastOneStr(calcStr);
+		String calcLastOneStr = Util.getStringBuilderLastOneStr(calcStr);
 
 		if (calcLastOneStr.equals(".")) {
 			Util.showTipText(getApplicationContext(), "操作数最后一位不能为小数点！");
@@ -311,26 +267,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		String btnText = ((Button)findViewById(view.getId())).getText().toString();
 		switch (view.getId()) {
 			case R.id.btn_Clear:
-				clear();
+				clearClick();
 				break;
 			case R.id.btn_del:
 				delClick();
 				break;
 			case R.id.btn_add:
-				currentOperaType = OPERA_TYPE_ADD;
-				operaClick(btnText);
+				if (operaClick(btnText)) {
+					currentOperaType = OPERA_TYPE_ADD;
+				}
 				break;
 			case R.id.btn_sub:
-				currentOperaType = OPERA_TYPE_SUB;
-				operaClick(btnText);
+				if (operaClick(btnText)) {
+					currentOperaType = OPERA_TYPE_SUB;
+				}
 				break;
 			case R.id.btn_mul:
-				currentOperaType = OPERA_TYPE_MUL;
-				operaClick(btnText);
+				if (operaClick(btnText)) {
+					currentOperaType = OPERA_TYPE_MUL;
+				}
 				break;
 			case R.id.btn_div:
-				currentOperaType = OPERA_TYPE_DIV;
-				operaClick(btnText);
+				if (operaClick(btnText)) {
+					currentOperaType = OPERA_TYPE_DIV;
+				}
 				break;
 			case R.id.btn_equal:
 				calc();
@@ -352,17 +312,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 				numClick(btnText);
 				break;
 		}
-//		LogUtil.d(TAG, "onClick: =====================================================" +
-//				",\n calcText ==-== " + calcStr.toString() +
-//				",\n currentOperaNum ==-== " + currentOperaNum.valueStr +
-//				",\n operaNum1 ==-== " + operaNum1.valueStr +
-//				",\n operaNum2 ==-== " + operaNum2.valueStr +
-//				",\n operaStr ==-== " + operaStr +
-//				",\n resultStr ==-== " + resultStr  +
-//				",\n result ==-== " + result  +
-//				",\n currentOperaType ==-== " + currentOperaType +
-//				",\n isExistResult ==-== " + Boolean.toString(isExistResult)  +
-//				",\n isOperaSuccess ==-== " + Boolean.toString(isOperaSuccess));
-
 	}
 }
