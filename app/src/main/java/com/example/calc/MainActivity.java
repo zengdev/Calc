@@ -215,7 +215,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			isOperaSuccess = false;
 			return;
 		}
-		String calcLastOneStr = Character.toString(calcStr.charAt(calcStr.length() - 1));
+		String calcLastOneStr = "";
+		if (calcStr.length() > 0) {
+			calcLastOneStr = Character.toString(calcStr.charAt(calcStr.length() - 1));
+		}
 		if (calcLastOneStr.equals(operaStr)) {
 			operaStr = "";
 			currentOperaNum = operaNum1;
@@ -223,10 +226,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			subBtn.setEnabled(true);
 			mulBtn.setEnabled(true);
 			divBtn.setEnabled(true);
-		} else	if (calcLastOneStr.equals(".")) {
+		} else {
 			currentOperaNum.valueStr.deleteCharAt(currentOperaNum.valueStr.length() - 1);
-			currentOperaNum.havePoint = false;
-			pointBtn.setEnabled(true);
+			if (calcLastOneStr.equals(".")) {
+				currentOperaNum.havePoint = false;
+				pointBtn.setEnabled(true);
+			}
 		}
 	}
 
@@ -264,6 +269,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 		if (calcLastOneStr.equals(".")) {
 			Util.showTipText(getApplicationContext(), "操作数最后一位不能为小数点！");
+			return;
+		}
+
+		if (calcLastOneStr.equals(operaStr)) {
+			Util.showTipText(getApplicationContext(), "请输入正确的计算式！");
 			return;
 		}
 
