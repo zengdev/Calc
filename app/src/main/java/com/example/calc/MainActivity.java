@@ -2,12 +2,11 @@ package com.example.calc;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.calc.Utils.LogUtil;
+//import com.example.calc.Utils.LogUtil;
 import com.example.calc.Utils.Util;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
